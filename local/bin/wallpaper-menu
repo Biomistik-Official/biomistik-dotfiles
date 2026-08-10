@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+"$HOME/.local/bin/wallpaper-menu.real" "$@"
+STATUS=$?
+
+# Даём awww долю секунды закончить смену картинки
+sleep 0.5
+
+"$HOME/.local/bin/sync-sddm-wallpaper" >/dev/null 2>&1 || true
+
+exit "$STATUS"

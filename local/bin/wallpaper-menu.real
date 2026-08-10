@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+CFG="$HOME/.config/quickshell/hyprquickpaper"
+
+# Сначала догенерируем недостающие превью
+"$CFG/cache.sh" "$CFG" >/dev/null 2>&1
+
+# Не плодим несколько picker'ов
+pkill -f "quickshell.*hyprquickpaper" 2>/dev/null || true
+
+exec quickshell -c hyprquickpaper

@@ -1,0 +1,87 @@
+{
+    "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+    "logo": {
+        "type": "kitty",
+        "source": "~/.config/fastfetch/images/",
+        // "width": 28,
+        "height": 18,
+        "padding": {
+            "top": 2,
+            "left": 2,
+            "right": 2
+        }
+    },
+    "display": {
+        "separator": "  "
+    },
+    "modules": [
+        "break",
+        // --- TOP OF THE LABEL BOX (Rounded) ---
+        {
+            "type": "custom",
+            "format": "╭──────────────────────╮",
+            "outputColor": "white"
+        },
+        {
+            "type": "title",
+            "key": "│    user             │",
+            "keyColor": "{{colors.primary.default.hex}}",
+            "format": "{1}" // {1} Native fastfetch user variable
+        },
+        {
+            "type": "title",
+            "key": "│    hname            │",
+            "keyColor": "{{colors.error.default.hex}}",
+            "format": "{2}" // {2} Native fastfetch hostname variable
+        },
+        {
+            "type": "os",
+            "key": "│  󰣇  distro           │",
+            "keyColor": "{{colors.secondary.default.hex}}"
+        },
+        {
+            "type": "kernel",
+            "key": "│    kernel           │",
+            "keyColor": "{{colors.tertiary.default.hex}}"
+        },
+        {
+            "type": "uptime",
+            "key": "│  󱎫  uptime           │",
+            "keyColor": "{{colors.primary.default.hex}}"
+        },
+        {
+            "type": "shell",
+            "key": "│    shell            │",
+            "keyColor": "{{colors.error.default.hex}}"
+        },
+        {
+            "type": "packages",
+            "key": "│  󰏖  pkgs             │",
+            "keyColor": "{{colors.tertiary.default.hex}}"
+        },
+        {
+            "type": "memory",
+            "key": "│  󰍛  memory           │",
+            "keyColor": "{{colors.secondary.default.hex}}"
+        },
+        // --- MIDDLE SEPARATOR ---
+        {
+            "type": "custom",
+            "format": "├──────────────────────┤",
+            "outputColor": "white"
+        },
+        {
+            "type": "colors",
+            "key": "│  󰏘  colors           │",
+            "keyColor": "{{colors.primary.default.hex}}",
+            "symbol": "circle"
+        },
+        // --- BOTTOM OF THE LABEL BOX (Rounded) ---
+        {
+            "type": "custom",
+            "format": "╰──────────────────────╯",
+            "outputColor": "white"
+        },
+        "break"
+    ]
+}

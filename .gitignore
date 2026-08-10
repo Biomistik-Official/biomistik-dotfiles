@@ -1,0 +1,54 @@
+# Logs, temporary files and editor leftovers
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.old
+*.orig
+*~
+.DS_Store
+.idea/
+.vscode/
+
+# Runtime state and caches
+.cache/
+cache/
+state/
+sessions/
+__pycache__/
+*.py[cod]
+*.pid
+*.sock
+*.lock
+*.crash
+*.core
+thumbnails/
+
+# Generated/build trees
+build/
+dist/
+node_modules/
+.venv/
+venv/
+
+# Local backups
+*.backup-*
+*.removed-*
+dotfiles-backups/
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+secrets/
+secret/
+credentials/
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# Nested repository metadata must never be vendored
+config/quickshell/**/.git/

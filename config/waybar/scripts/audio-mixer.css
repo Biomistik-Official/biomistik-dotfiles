@@ -1,0 +1,119 @@
+@import '../colors.css';
+
+* {
+    font-family: "JetBrainsMono Nerd Font Propo", monospace;
+    font-size: 13px;
+}
+
+window#audio-mixer {
+    background-color: transparent;
+}
+
+.audio-card {
+    background-color: @surface;
+    color: @on_surface;
+    border: 1px solid @outline_variant;
+    border-radius: 16px;
+    padding: 14px;
+}
+
+.mixer-title {
+    color: @primary;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.section-title {
+    color: @on_surface_variant;
+    font-weight: 700;
+}
+
+.volume-row {
+    background-color: alpha(@surface_variant, 0.35);
+    border-radius: 12px;
+    padding: 10px;
+}
+
+.row-icon {
+    color: @primary;
+    font-size: 18px;
+    min-width: 24px;
+}
+
+.row-title {
+    color: @on_surface;
+    font-weight: 600;
+}
+
+.row-subtitle,
+.hint,
+.empty-state {
+    color: @on_surface_variant;
+    font-size: 11px;
+}
+
+.empty-state {
+    background-color: alpha(@surface_variant, 0.35);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+button {
+    background: transparent;
+    color: @on_surface_variant;
+    border: none;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+button:hover {
+    background-color: @surface_variant;
+    color: @on_surface;
+}
+
+.close-button,
+.mute-button {
+    border-radius: 9999px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 0;
+}
+
+.close-button {
+    font-size: 20px;
+}
+
+scale {
+    padding: 2px 0;
+}
+
+scale trough {
+    background-color: @surface_variant;
+    border-radius: 9999px;
+    min-height: 6px;
+}
+
+scale highlight {
+    background-color: @primary;
+    border-radius: 9999px;
+}
+
+scale slider {
+    background-color: @primary;
+    border: none;
+    border-radius: 9999px;
+    min-width: 16px;
+    min-height: 16px;
+    margin: -5px;
+}
+
+separator {
+    background-color: @outline_variant;
+    min-height: 1px;
+}
+
+scrollbar slider {
+    background-color: @outline;
+    border-radius: 9999px;
+    min-width: 5px;
+}

@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+TARGET="/usr/share/sddm/themes/noctra-material/Backgrounds/current.png"
+
+WALL="$(
+    awww query -j 2>/dev/null |
+    python3 -c '
+import json, sys
+
+try:
+    data = json.load(sys.stdin)
+
+    for outputs in data.values():
+        for output in outputs:
+            displaying = output.get("displaying", {})
+            image = displaying.get("image")
+
+            if image:
+                print(image)
+                raise SystemExit(0)
+except Exception:
+    pass
+
+raise SystemExit(1)
+'
+)"
+
+if [[ -z "$WALL" || ! -f "$WALL" ]]; then
+    echo "Не удалось найти текущие обои"
+    exit 1
+fi
+
+magick "${WALL}[0]" "$TARGET"
+chmod 644 "$TARGET"
+
+echo "SDDM wallpaper -> $WALL"

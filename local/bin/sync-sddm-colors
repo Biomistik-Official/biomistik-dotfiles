@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+COLORS="$HOME/.config/hypr/colors.conf"
+CONF="/usr/share/sddm/themes/noctra-material/theme.conf.user"
+
+get_color() {
+    sed -nE \
+        "s/^[[:space:]]*\\\$$1[[:space:]]*=[[:space:]]*rgb\(([0-9a-fA-F]{6})\).*/#\1/p" \
+        "$COLORS" | head -n 1
+}
+
+PRIMARY="$(get_color primary)"
+SECONDARY="$(get_color secondary)"
+SURFACE="$(get_color surface)"
+
+PRIMARY="${PRIMARY:-#ffb4a8}"
+SECONDARY="${SECONDARY:-#e7bdb6}"
+SURFACE="${SURFACE:-#1a1110}"
+
+cat > "$CONF" <<CFG
+[General]
+
+# Noctra Material You
+Background="Backgrounds/current.png"
+
+DimBackgroundImage="0.28"
+ScaleImageCropped="true"
+
+ScreenWidth="1920"
+ScreenHeight="1080"
+
+# Glass / Material surface
+FullBlur="false"
+PartialBlur="true"
+BlurRadius="42"
+
+HaveFormBackground="true"
+FormPosition="center"
+
+BackgroundImageHAlignment="center"
+BackgroundImageVAlignment="center"
+
+# Dynamic Matugen palette
+MainColor="$SECONDARY"
+AccentColor="$PRIMARY"
+BackgroundColor="$SURFACE"
+OverrideLoginButtonTextColor="$SURFACE"
+
+# Material You shapes
+RoundCorners="28"
+
+InterfaceShadowSize="5"
+InterfaceShadowOpacity="0.38"
+
+ScreenPadding="0"
+
+Font="Roboto"
+
+ForceLastUser="true"
+ForcePasswordFocus="true"
+ForceHideCompletePassword="false"
+ForceHideVirtualKeyboardButton="true"
+
+# Оставляем power-кнопки
+ForceHideSystemButtons="false"
+
+HourFormat="HH:mm"
+DateFormat="dddd, d MMMM"
+
+# Нахуй Welcome!
+HeaderText=""
+
+TranslatePlaceholderUsername="User"
+TranslatePlaceholderPassword="Password"
+TranslateShowPassword=""
+TranslateLogin="Unlock"
+TranslateLoginFailedWarning=""
+TranslateCapslockWarning=""
+TranslateSession=" "
+TranslateSuspend=""
+TranslateHibernate=""
+TranslateReboot=""
+TranslateShutdown=""
+TranslateVirtualKeyboardButton=""
+CFG

@@ -1,0 +1,76 @@
+# Core compositor/session
+hyprland
+hypridle
+hyprlock
+hyprpicker
+uwsm
+xdg-desktop-portal
+xdg-desktop-portal-gtk
+
+# Bar, shell and desktop UI
+waybar
+quickshell
+swaync
+rofi
+rofimoji
+kitty
+fish
+cachyos-fish-config
+fastfetch
+btop
+qt6ct
+gtk3
+gtk4
+gtk-layer-shell
+gtk4-layer-shell
+python
+python-cairo
+python-gobject
+
+# Audio, media and visualizer
+pipewire
+pipewire-alsa
+pipewire-pulse
+wireplumber
+playerctl
+cava
+pavucontrol
+
+# Network, power and system controls
+networkmanager
+bluez
+bluez-utils
+brightnessctl
+power-profiles-daemon
+upower
+polkit-gnome
+
+# Screenshots, recording, clipboard and theming
+grim
+slurp
+wf-recorder
+wl-clipboard
+cliphist
+imagemagick
+libnotify
+jq
+rsync
+xdg-utils
+
+# Fonts/icons used by the configs
+adwaita-cursors
+adwaita-icon-theme
+noto-fonts
+noto-fonts-emoji
+ttf-jetbrains-mono-nerd
+ttf-roboto
+
+# Hotkey applications
+thunar
+code
+
+# SDDM and Sugar Candy runtime modules
+sddm
+qt5-graphicaleffects
+qt5-quickcontrols2
+qt5-svg

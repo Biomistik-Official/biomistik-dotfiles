@@ -1,0 +1,6 @@
+[Unit]
+Description=Sync Noctra Matugen colors to SDDM
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/sync-sddm-colors

@@ -1,0 +1,195 @@
+/* ══════════════════════════════════════════════════════════════════
+   Noctra OS - Waybar Full-Width Top Panel (Performance Optimized)
+   ══════════════════════════════════════════════════════════════════ */
+@import 'colors.css';
+
+/* ── Global reset ── */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font Propo", monospace;
+    font-size: 13px;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+window#waybar {
+    background-color: @surface;
+    border-radius: 0;
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Content groups inside the full-width panel ── */
+.modules-left,
+.modules-center,
+.modules-right {
+    background-color: transparent;
+    border-radius: 0;
+    padding: 6px 18px;
+}
+
+/* ── Shared module base ── */
+#workspaces,
+#idle_inhibitor,
+#clock,
+#pulseaudio,
+#network,
+#battery,
+#tray,
+#custom-notification,
+#custom-power {
+    background: transparent;
+    padding: 4px 10px;
+    margin: 0 2px;
+    color: @on_surface;
+    border-radius: 9999px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Hover effect */
+#workspaces button:hover,
+#pulseaudio:hover,
+#network:hover,
+#battery:hover,
+#clock:hover,
+#custom-notification:hover,
+#custom-power:hover {
+    background: @surface_variant;
+}
+
+/* ── Clock ── */
+#clock {
+    color: @primary;
+    font-weight: 600;
+    padding: 4px 14px;
+}
+
+/* ── Workspaces (Jitter-Free) ── */
+#workspaces {
+    padding: 0 4px;
+    margin: 0 4px;
+}
+
+button {
+    box-shadow: none;
+    background: transparent;
+    border-radius: 9999px;
+    padding: 4px 10px;
+    min-width: 32px; /* STATIC width. No more jitter. */
+    color: @on_surface_variant;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#workspaces button:hover {
+    color: @on_surface;
+    background: @surface_variant;
+}
+
+#workspaces button.active {
+    color: @on_primary;
+    background: @primary;
+    /* Do NOT change width here */
+}
+
+#workspaces button.urgent {
+    animation: urgent-blink 800ms steps(4) infinite alternate;
+}
+
+@keyframes urgent-blink {
+    to { background-color: @error; color: @on_error; }
+}
+
+/* ── Audio & Network ── */
+#pulseaudio.muted,
+#network.disconnected,
+#network.disabled {
+    color: @outline;
+}
+
+/* ── Battery ── */
+#battery.charging,
+#battery.plugged {
+    color: @tertiary;
+}
+
+#battery.warning:not(.charging) {
+    color: @tertiary;
+    animation: battery-warn 2.5s steps(6) infinite alternate;
+}
+
+#battery.critical:not(.charging) {
+    color: @error;
+    animation: battery-critical 0.6s steps(4) infinite alternate;
+}
+
+@keyframes battery-warn { to { color: @error; } }
+@keyframes battery-critical { to { color: @on_error; } }
+
+/* ── Tray ── */
+#tray > .passive { -gtk-icon-effect: dim; }
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background: @error_container;
+    border-radius: 50%;
+}
+
+/* ── Tooltip ── */
+tooltip {
+    background-color: @surface_variant;
+    border: 1px solid @outline_variant;
+    border-radius: 12px;
+    padding: 4px 8px;
+}
+
+tooltip label {
+    color: @on_surface_variant;
+}
+
+/* ── Static Screen Recorder Indicator ── */
+#custom-recorder {
+    background: @error; /* Uses your Matugen Error/Red color */
+    color: @background;
+    padding: 0 12px;
+    margin: 4px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+/* ── Compact event-driven MPRIS source ── */
+#custom-media-source {
+    background: transparent;
+    color: @on_surface;
+    padding: 4px 10px;
+    margin: 0 4px;
+    border-radius: 9999px;
+    opacity: 1;
+    transition: opacity 180ms ease,
+                color 200ms ease,
+                background-color 200ms ease,
+                padding 180ms ease,
+                margin 180ms ease;
+}
+
+#custom-media-source:hover {
+    background-color: @surface_variant;
+}
+
+#custom-media-source.playing {
+    color: @primary;
+}
+
+#custom-media-source.paused,
+#custom-media-source.stopped {
+    color: @on_surface_variant;
+}
+
+#custom-media-source.appearing,
+#custom-media-source.disappearing,
+#custom-media-source.hidden {
+    opacity: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+}

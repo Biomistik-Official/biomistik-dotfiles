@@ -1,0 +1,155 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 38,
+    "margin-top": 0,
+    "margin-bottom": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "spacing": 4,
+
+    "modules-left": [
+        "hyprland/workspaces",
+        "idle_inhibitor",
+        "custom/media-source"
+    ],
+    "modules-center": [
+        "clock"
+    ],
+    "modules-right": [
+        "custom/recorder",
+        "pulseaudio",
+        "network",
+        "battery",
+        "tray",
+        "custom/notification",
+        "custom/power"
+    ],
+
+    "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "persistent-workspaces": {
+        "*": 4
+    },
+    "disable-scroll": false,
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1",
+
+    /* === Anti-jitter / smoother options === */
+    "active-only": false,          // show all workspaces (helps stability)
+    "all-outputs": false,          // important if you have one monitor
+    "sort-by-number": true,        // prevents random reordering
+    "format-icons": {
+        "1": "1",
+        "2": "2",
+        "3": "3",
+        "4": "4",
+        "default": "󰊠"
+    }
+},
+
+    "clock": {
+        "format": " {:%b %d, %H:%M} ",
+        "format-alt": " {:%A, %d %B %Y | %H:%M:%S} ",
+        "tooltip": false,
+        "on-hover": "~/.config/waybar/scripts/panel-menu-client.py enter clock",
+        "on-hover-lost": "~/.config/waybar/scripts/panel-menu-client.py leave clock",
+        "on-click": "mode"   // toggles between normal and alt format
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 Muted",
+        "format-icons": ["󰕿", "󰖀", "󰕾"],
+        "on-click": "~/.config/waybar/scripts/panel-menu-client.py toggle audio",
+        "on-click-right": "pavucontrol",
+        "on-hover": "~/.config/waybar/scripts/panel-menu-client.py enter audio",
+        "on-hover-lost": "~/.config/waybar/scripts/panel-menu-client.py leave audio",
+        "tooltip": false
+    },
+
+    "network": {
+        "format-wifi": "󰤨 {essid} {signalStrength}%",
+        "format-ethernet": "󰈀 {ifname}",
+        "format-linked": "󰈀 {ifname} (No IP)",
+        "format-disconnected": "󰤭 Disconnected",
+        "tooltip": false,
+        "on-click": "~/.config/waybar/scripts/panel-menu-client.py toggle network",
+        "on-hover": "~/.config/waybar/scripts/panel-menu-client.py enter network",
+        "on-hover-lost": "~/.config/waybar/scripts/panel-menu-client.py leave network"
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
+        "tooltip": false,
+        "on-click": "~/.config/waybar/scripts/panel-menu-client.py toggle battery",
+        "on-hover": "~/.config/waybar/scripts/panel-menu-client.py enter battery",
+        "on-hover-lost": "~/.config/waybar/scripts/panel-menu-client.py leave battery"
+    },
+
+    "tray": {
+        "icon-size": 18,
+        "spacing": 8,
+        "show-passive-items": true
+    },
+
+    "custom/notification": {
+        "tooltip": false,
+        "format": "",
+        "on-click": "~/.config/waybar/scripts/panel-menu-client.py toggle notifications",
+        "on-hover": "~/.config/waybar/scripts/panel-menu-client.py enter notifications",
+        "on-hover-lost": "~/.config/waybar/scripts/panel-menu-client.py leave notifications",
+        "escape": true,
+        "return-type": "json"   // future-proof if you want dynamic count later
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰅶",   // Solid coffee cup when caffeine is ON
+            "deactivated": "󰾆" // Outline coffee cup when caffeine is OFF
+        },
+        "tooltip-format-activated": "Caffeine Mode: Active (Screen stays on)",
+        "tooltip-format-deactivated": "Caffeine Mode: Inactive (Normal power saving)"
+    },
+
+    "custom/recorder": {
+        "format": "{}",
+        "return-type": "json",
+        "interval": 1,
+        "exec": "~/.config/waybar/scripts/recorder-status.sh",
+        "on-click": "~/.config/hypr/scripts/screen-record.sh", // Same script stops it
+        "signal": 8
+    },
+
+    "custom/media-source": {
+        "format": "{text}",
+        "return-type": "json",
+        "exec": "~/.config/waybar/scripts/media-source.py --print",
+        "signal": 9,
+        "exec-on-event": false,
+        "hide-empty-text": true,
+        "escape": false,
+        "tooltip": false,
+        "on-click": "~/.config/waybar/scripts/panel-menu-client.py toggle media",
+        "on-hover": "~/.config/waybar/scripts/panel-menu-client.py enter media",
+        "on-hover-lost": "~/.config/waybar/scripts/panel-menu-client.py leave media",
+        "on-click-middle": "~/.config/waybar/scripts/media-source.py --action play-pause"
+    },
+
+    "custom/power": {
+        "format": "⏻ ",
+        "tooltip": false,
+        "on-click": "~/.config/waybar/scripts/panel-menu-client.py toggle power",
+        "on-hover": "~/.config/waybar/scripts/panel-menu-client.py enter power",
+        "on-hover-lost": "~/.config/waybar/scripts/panel-menu-client.py leave power"
+    }
+}

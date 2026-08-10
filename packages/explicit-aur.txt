@@ -1,0 +1,9 @@
+# Explicitly installed native packages on the source machine (2026-08-10).
+# Reference snapshot only; install.sh does not consume this file.
+awww-git
+hyprmod
+matugen-bin
+networkmanager-dmenu-git
+peaclock
+sddm-sugar-candy-git
+swayosd-git

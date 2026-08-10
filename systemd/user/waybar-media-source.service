@@ -1,0 +1,12 @@
+[Unit]
+Description=Event-driven MPRIS source for Waybar
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=%h/.config/waybar/scripts/media-source.py --service
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

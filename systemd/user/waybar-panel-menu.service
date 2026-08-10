@@ -1,0 +1,14 @@
+[Unit]
+Description=Unified hover menu for Waybar
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=simple
+Environment=NO_AT_BRIDGE=1
+ExecStart=%h/.config/waybar/scripts/panel-menu.py
+Restart=on-failure
+RestartSec=1
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,116 @@
+diff --git a/include/AModule.hpp b/include/AModule.hpp
+index 6b29045..3456e9a 100644
+--- a/include/AModule.hpp
++++ b/include/AModule.hpp
+@@ -55,6 +55,8 @@ class AModule : public IModule {
+   const bool isTooltip;
+   const bool isExpand;
+   bool hasUserEvents_;
++  bool hover_active_;
++  sigc::connection hover_leave_timer_;
+   gdouble distance_scrolled_y_;
+   gdouble distance_scrolled_x_;
+   std::map<std::string, std::string> eventActionMap_;
+diff --git a/src/ALabel.cpp b/src/ALabel.cpp
+index d251d89..88ec852 100644
+--- a/src/ALabel.cpp
++++ b/src/ALabel.cpp
+@@ -35,6 +35,11 @@ ALabel::ALabel(const Json::Value& config, const std::string& name, const std::st
+   }
+   label_.get_style_context()->add_class(MODULE_CLASS);
+   event_box_.add(label_);
++  if (config_["on-hover"].isString() || config_["on-hover-lost"].isString()) {
++    label_.add_events(Gdk::ENTER_NOTIFY_MASK | Gdk::LEAVE_NOTIFY_MASK);
++    label_.signal_enter_notify_event().connect(sigc::mem_fun(*this, &ALabel::handleMouseEnter));
++    label_.signal_leave_notify_event().connect(sigc::mem_fun(*this, &ALabel::handleMouseLeave));
++  }
+   if (config_["max-length"].isUInt()) {
+     label_.set_max_width_chars(config_["max-length"].asInt());
+     label_.set_ellipsize(Pango::EllipsizeMode::ELLIPSIZE_END);
+diff --git a/src/AModule.cpp b/src/AModule.cpp
+index c6fdff3..9df8fda 100644
+--- a/src/AModule.cpp
++++ b/src/AModule.cpp
+@@ -1,6 +1,8 @@
+ #include "AModule.hpp"
+ 
+ #include <fmt/format.h>
++#include <glibmm/shell.h>
++#include <glibmm/spawn.h>
+ #include <spdlog/spdlog.h>
+ 
+ #include <util/command.hpp>
+@@ -16,6 +18,7 @@ AModule::AModule(const Json::Value& config, const std::string& name, const std::
+       config_(config),
+       isTooltip{config_["tooltip"].isBool() ? config_["tooltip"].asBool() : true},
+       isExpand{config_["expand"].isBool() ? config_["expand"].asBool() : false},
++      hover_active_(false),
+       distance_scrolled_y_(0.0),
+       distance_scrolled_x_(0.0) {
+   // Configure module action Map
+@@ -83,6 +86,9 @@ AModule::AModule(const Json::Value& config, const std::string& name, const std::
+ }
+ 
+ AModule::~AModule() {
++  if (hover_leave_timer_.connected()) {
++    hover_leave_timer_.disconnect();
++  }
+   for (const auto& pid : pid_children_) {
+     if (pid != -1) {
+       killpg(pid, SIGTERM);
+@@ -133,6 +139,30 @@ bool AModule::handleMouseEnter(GdkEventCrossing* const& e) {
+     setCursor(Gdk::HAND2);
+   }
+ 
++  if (hover_leave_timer_.connected()) {
++    hover_leave_timer_.disconnect();
++  }
++  if (!hover_active_) {
++    hover_active_ = true;
++    if (config_["on-hover"].isString()) {
++      try {
++        int trigger_center_x = static_cast<int>(e->x_root);
++        if (const auto window = event_box_.get_window(); window) {
++          int root_x = 0;
++          int root_y = 0;
++          window->get_origin(root_x, root_y);
++          trigger_center_x = root_x + event_box_.get_allocated_width() / 2;
++        }
++        const auto command =
++            fmt::format("/usr/bin/env WAYBAR_HOVER_CENTER_X={} /bin/sh -c {}", trigger_center_x,
++                        Glib::shell_quote(config_["on-hover"].asString()));
++        Glib::spawn_command_line_async(command);
++      } catch (const Glib::SpawnError& error) {
++        spdlog::error("Unable to run on-hover command: {}", error.what().raw());
++      }
++    }
++  }
++
+   return false;
+ }
+ 
+@@ -146,6 +176,24 @@ bool AModule::handleMouseLeave(GdkEventCrossing* const& e) {
+     setCursor(Gdk::ARROW);
+   }
+ 
++  if (e->detail != GDK_NOTIFY_INFERIOR && hover_active_ && !hover_leave_timer_.connected()) {
++    hover_leave_timer_ = Glib::signal_timeout().connect(
++        [this]() {
++          hover_active_ = false;
++          if (config_["on-hover-lost"].isString()) {
++            try {
++              Glib::spawn_command_line_async(
++                  Glib::ustring{"/bin/sh -c "} +
++                  Glib::shell_quote(config_["on-hover-lost"].asString()));
++            } catch (const Glib::SpawnError& error) {
++              spdlog::error("Unable to run on-hover-lost command: {}", error.what().raw());
++            }
++          }
++          return false;
++        },
++        80);
++  }
++
+   return false;
+ }
+ 

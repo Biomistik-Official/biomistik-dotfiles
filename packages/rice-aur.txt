@@ -1,0 +1,10 @@
+# Wallpaper and Material You pipeline
+awww-git
+matugen-bin
+
+# On-screen display and network menu
+swayosd-git
+networkmanager-dmenu-git
+
+# Browser invoked by Super+W
+zen-browser-bin

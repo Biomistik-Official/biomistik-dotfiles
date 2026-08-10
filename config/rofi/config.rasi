@@ -1,0 +1,150 @@
+/* Beautiful Matugen Rofi Launcher */
+@import "colors.rasi"
+
+* {
+    /* Set default font */
+    font: "JetBrainsMono Nerd Font 10";
+}
+
+window {
+    width: 600px;
+    x-offset: 0px;
+    y-offset: 0px;
+    anchor: center;
+    location: center;
+    spacing: 0px;
+    padding: 0px;
+    border: 2px solid;
+    border-color: @highlight-col;
+    border-radius: 12px;
+    background-color: @bg-col;
+    children: [ mainbox ];
+}
+
+mainbox {
+    spacing: 0px;
+    padding: 10px;
+    border: 0px solid;
+    border-color: transparent;
+    border-radius: 0px;
+    background-color: transparent;
+    children: [ inputbar, listview ];
+}
+
+inputbar {
+    spacing: 10px;
+    padding: 10px;
+    border: 0px solid;
+    border-color: transparent;
+    border-radius: 0px;
+    background-color: transparent;
+    children: [ prompt, entry ];
+}
+
+prompt {
+    spacing: 0px;
+    padding: 0px;
+    border: 0px solid;
+    border-color: transparent;
+    border-radius: 0px;
+    text-color: @highlight-col;
+    background-color: transparent;
+}
+
+entry {
+    spacing: 0px;
+    padding: 0px;
+    border: 0px solid;
+    border-color: transparent;
+    border-radius: 0px;
+    text-color: @text-col;
+    background-color: transparent;
+    placeholder: "Search...";
+    placeholder-color: @selected-col;
+}
+
+listview {
+    spacing: 5px;
+    padding: 10px 0px 0px 0px;
+    border: 0px solid;
+    border-color: transparent;
+    border-radius: 0px;
+    background-color: transparent;
+    lines: 10;
+    columns: 1;
+    fixed-height: false;
+    scrollbar: false;
+}
+
+element {
+    spacing: 10px;
+    padding: 8px;
+    border: 0px solid;
+    border-color: transparent;
+    border-radius: 8px;
+    background-color: transparent;
+    text-color: @text-col;
+}
+
+element selected.normal {
+    background-color: @highlight-col;
+    text-color: @bg-col;
+}
+
+element selected.urgent {
+    background-color: @highlight-col;
+    text-color: @bg-col;
+}
+
+element selected.active {
+    background-color: @selected-col;
+    text-color: @bg-col;
+}
+
+element normal.normal {
+    background-color: transparent;
+    text-color: @text-col;
+}
+
+element normal.urgent {
+    background-color: @highlight-col;
+    text-color: @bg-col;
+}
+
+element normal.active {
+    background-color: @selected-col;
+    text-color: @bg-col;
+}
+
+element alternate.normal {
+    background-color: @selected-col;
+    text-color: @text-col;
+}
+
+element alternate.urgent {
+    background-color: @highlight-col;
+    text-color: @bg-col;
+}
+
+element alternate.active {
+    background-color: @selected-col;
+    text-color: @bg-col;
+}
+
+element-icon {
+    size: 24px;
+    border: 0px solid;
+    border-color: transparent;
+    border-radius: 0px;
+    background-color: transparent;
+}
+
+element-text {
+    spacing: 0px;
+    padding: 0px;
+    border: 0px solid;
+    border-color: transparent;
+    border-radius: 0px;
+    background-color: transparent;
+    text-color: inherit;
+}

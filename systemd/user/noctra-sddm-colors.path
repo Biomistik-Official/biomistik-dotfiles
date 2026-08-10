@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch Noctra Matugen colors
+
+[Path]
+PathChanged=%h/.config/hypr/colors.conf
+Unit=noctra-sddm-colors.service
+
+[Install]
+WantedBy=default.target

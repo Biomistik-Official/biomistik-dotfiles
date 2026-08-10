@@ -1,0 +1,2 @@
+# Unified diffs require one-character blank context lines; do not flag them.
+*.patch -whitespace
