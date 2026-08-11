@@ -58,6 +58,7 @@ hl.bind(M .. " + ALT + Page_Up", hl.dsp.window.move({ workspace = "-1" }))
 
 -- System
 hl.bind(M .. " + N", exec("swaync-client -t"))
+hl.bind(M .. " + K", exec("$HOME/.config/waybar/scripts/panel-menu-client.py toggle performance"))
 hl.bind("CTRL + ALT + Delete", exec("$HOME/.config/waybar/scripts/sys-menu.sh"))
 hl.bind(M .. " + Escape", exec("$HOME/.config/waybar/scripts/sys-menu.sh"))
 hl.bind(M .. " + L", exec("hyprlock"))

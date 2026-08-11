@@ -47,6 +47,7 @@ def load_script(name, filename):
 
 MEDIA = load_script("waybar_media_popup", "media-popup.py")
 AUDIO = load_script("waybar_audio_mixer", "audio-mixer.py")
+PERFORMANCE = load_script("waybar_performance_panel", "performance_panel.py")
 
 
 def add_class(widget, name):
@@ -926,6 +927,8 @@ class PanelMenu(Gtk.Window):
         self.connect("key-press-event", self.on_key_press)
         self.connect("destroy", lambda *_: Gtk.main_quit())
         self.install_hover_events(self.surface)
+        self.performance = PERFORMANCE.PerformancePanelWindow()
+        self.performance_hotspot = PERFORMANCE.PerformanceHotspotWindow(self.open_performance)
 
         # Prebuild pages so the first hover never waits for widget construction.
         # MediaPage explicitly suspends its 30 FPS timer while hidden.
@@ -988,9 +991,33 @@ class PanelMenu(Gtk.Window):
             GLib.source_remove(source)
             setattr(self, attribute, None)
 
+    def open_performance(self):
+        if self.performance.is_open():
+            return False
+        self.cancel_timer("open_timer")
+        self.trigger_hovered.clear()
+        if self.external_notifications_open:
+            self.close_notifications()
+        elif self.menu_is_open():
+            self.close_menu()
+        self.performance.show_panel()
+        return False
+
     def command(self, action, name, trigger_center=None):
+        if name == "performance":
+            if action != "toggle":
+                return
+            self.cancel_timer("open_timer")
+            self.trigger_hovered.clear()
+            if self.performance.is_open():
+                self.performance.close_panel()
+                return
+            self.open_performance()
+            return
         if name not in self.PAGE_FACTORIES:
             return
+        if action in {"enter", "toggle"} and self.performance.is_open():
+            self.performance.close_panel()
         if action == "enter":
             if trigger_center is not None:
                 self.trigger_centers[name] = trigger_center
@@ -1034,6 +1061,8 @@ class PanelMenu(Gtk.Window):
         return False
 
     def show_page(self, name):
+        if self.performance.is_open():
+            self.performance.close_panel()
         if name == "notifications":
             self.show_notifications()
             return
@@ -1260,6 +1289,8 @@ class PanelMenu(Gtk.Window):
 
     def shutdown(self):
         self.close_notifications()
+        self.performance_hotspot.shutdown()
+        self.performance.shutdown()
         for page in self.pages.values():
             page.shutdown()
 
